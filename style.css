@@ -29,6 +29,8 @@ h1 {
     background-color: #f9f9f9;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 100%;
+    text-align: left;
 }
 
 .furniture-item:hover {
