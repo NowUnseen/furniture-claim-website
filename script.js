@@ -9,16 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
         'Side Table', 'Recliner', 'Hutch', 'Bean Bag', 'Chaise Lounge', 'Rocking Chair', 'Swivel Chair', 'Footstool', 'Console Table', 'End Table'
     ];
 
-    let claims = {};
+    let claims = JSON.parse(localStorage.getItem('furnitureClaims')) || {};
 
-    // Load claims from server
-    fetch('/api/claims')
-        .then(response => response.json())
-        .then(data => {
-            claims = data;
-            renderGrid();
-        })
-        .catch(error => console.error('Error loading claims:', error));
+    renderGrid();
 
     function renderGrid() {
         grid.innerHTML = '';
@@ -42,21 +35,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Already claimed, ask for admin password to unclaim
             const password = prompt('Enter admin password to unclaim:');
             if (password === adminPassword) {
-                fetch(`/api/unclaim/${id}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ password })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        delete claims[id];
-                        updateItem(id);
-                    } else {
-                        alert('Error unclaiming: ' + data.error);
-                    }
-                })
-                .catch(error => console.error('Error unclaiming:', error));
+                delete claims[id];
+                localStorage.setItem('furnitureClaims', JSON.stringify(claims));
+                updateItem(id);
             } else {
                 alert('Incorrect password.');
             }
@@ -64,21 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Not claimed, prompt for username
             const username = prompt('Enter your username to claim this furniture:');
             if (username && username.trim() !== '') {
-                fetch(`/api/claim/${id}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: username.trim() })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        claims[id] = username.trim();
-                        updateItem(id);
-                    } else {
-                        alert('Error claiming: ' + data.error);
-                    }
-                })
-                .catch(error => console.error('Error claiming:', error));
+                claims[id] = username.trim();
+                localStorage.setItem('furnitureClaims', JSON.stringify(claims));
+                updateItem(id);
             }
         }
     }
