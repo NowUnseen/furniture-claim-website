@@ -1,0 +1,4 @@
+- [x] Create index.html with HTML structure for 30 furniture items in a grid
+- [x] Create style.css for styling the grid and items
+- [x] Create script.js for handling claims (prompt username, store in localStorage) and unclaims (admin password to remove)
+- [x] Test the website by opening index.html in browser
