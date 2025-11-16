@@ -1,0 +1,1 @@
+# furniture-claim-website.gitignore
