@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         grid.innerHTML = '';
         // Create 30 furniture items
         for (let i = 1; i <= 30; i++) {
-            const item = document.createElement('div');
+            const item = document.createElement('button');
             item.className = 'furniture-item';
             item.id = `furniture-${i}`;
             item.textContent = furnitureNames[i - 1];
